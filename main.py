@@ -2,30 +2,23 @@ import random
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 
-# API-ключ созданный ранее
-token = input("your token: \n")
 
-#vk1.a.ArEKXtyoJGr3D6nAt96Kl2vmMQoYB9rvBs-j4DT0c8eBG5Mf4m-Mr1oP-IeSopV_z9AyAioLj1moWaWO5rvSFyR7AccPE0yJ3TjqgTKF_73B146H_Pdl4XdlwqUSxZXUV0V27HBND55Qwx20D7RHUbEjG2Pv5LUmGM_NPAvuu08lynosNyAUpZZvRHd8m1lkZMd-JXIFpsa8W0IjlGlFXA
+token = input("your token: \n")
 
 bh = vk_api.VkApi(token=token)
 give = bh.get_api()
 longpoll = VkLongPoll(bh)
 
 
-# Создадим функцию для ответа на сообщения в лс группы
 def blasthack(id, text):
     bh.method('messages.send', {'user_id': id, 'message': text, 'random_id': random.randint(1, 9999999999)})
 
 
 print("server started")
-# Слушаем longpoll(Сообщения)
 for event in longpoll.listen():
     if event.type == VkEventType.MESSAGE_NEW:
-        # Чтобы наш бот не слышал и не отвечал на самого себя
         if event.to_me:
-            # Для того чтобы бот читал все с маленьких букв
             message = event.text.lower()
-            # Получаем id пользователя
             id = event.user_id
 
             if message == 'привет':
